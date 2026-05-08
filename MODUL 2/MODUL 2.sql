@@ -44,7 +44,7 @@ SELECT pr.nama_produk FROM produk as pr;
 
 -- LATIHAN MANDIRI 
 -- case 1
-SELECT nama_pelanggan, alamat FROM pelanggan;
+SELECT pr.nama_pelanggan, pr.alamat FROM pelanggan as pr;
 
 -- case 2
-SELECT nama_produk, harga FROM produk;
+SELECT pr.nama_produk, pr.harga FROM produk as pr;
