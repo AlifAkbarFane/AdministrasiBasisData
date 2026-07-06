@@ -58,6 +58,7 @@ SELECT nama_produk, qty, harga ,qty*harga  AS total FROM penjualan ORDER BY harg
 -- latihan mandiri 3
 -- Cobalah pengurutan dengan ekspresi total harga menggunakan 
 -- rumusan jumlah barang dikali harga barang dikurangi diskon.
+SELECT nama_produk, harga, (qty*harga-diskon_persen) AS diskon_persen FROM penjualan ORDER BY harga*qty-diskon_persen;
 
 -- praktek 6
 -- menggunakan WHERE pada ORDER BY
@@ -68,13 +69,16 @@ SELECT nama_produk, qty FROM penjualan WHERE nama_produk LIKE 'F%' ORDER BY qty 
 
 -- latihan mandiri 4
 -- 1.tampilkan semua kolom dari transaksi penjualan yang memiliki diskon dan diurutkan berdasarkan harga tertinggi.
+SELECT * FROM penjualan WHERE diskon_persen > 0 ORDER BY harga DESC;
 
 -- 2.tampilkan kolom nama produk, kuantitas pembelian dan harga dari transaksi penjualan yang memiliki 
 -- harga minimal seratus ribu rupiah dan diurutkan berdasarkan harga tertinggi.
+SELECT nama_produk, qty, harga FROM penjualan WHERE harga >= 100000 ORDER BY harga DESC;
 
 -- 3.tampilkan kolom nama produk, kuantitas pembelian dan harga dari transaksi 
 -- penjualan yang memiliki harga minimal seratus ribu rupiah atau nama produk 
 -- berawalan karakter ‘T’ dan diurutkan berdasarkan diskon tertinggi.
+SELECT nama_produk, qty, harga FROM penjualan WHERE harga >= 100000 OR nama_produk LIKE 'T%'ORDER BY diskon_persen DESC;
 
 -- praktek 7
 -- Menggunakan Fungsi Agregasi SUM
@@ -116,22 +120,6 @@ SELECT nama_produk FROM penjualan GROUP BY nama_produk;
 -- mengambil grouping dari kolom nama produk dan qty terhadap tabel transaksi penjualan
 SELECT nama_produk, qty FROM penjualan GROUP BY nama_produk, qty;
 
-
-
-
-
-
- 
-
-
-
-
-
-
-
-
-
-
 -- praktek 16
 -- mengambil jumlah qty dari grouping nama produk terhadap seluruh row tabel transaksi penjualan
 SELECT nama_produk, SUM(qty) FROM penjualan GROUP BY nama_produk;
@@ -147,4 +135,15 @@ SELECT nama_produk, sum(qty) FROM penjualan GROUP BY nama_produk ORDER BY sum(qt
 SELECT nama_produk, sum(qty) FROM penjualan GROUP BY nama_produk HAVING sum(qty) > 2;
 
 -- Latihan Mandiri 
+-- 1.Melihat daftar nama produk yang total jumlah produk terjual per kelompok nama produk adalah di atas nilai 4. 
+SELECT nama_produk, sum(qty) FROM penjualan GROUP BY nama_produk HAVING sum(qty) > 4;
+
+-- 2.Melihat daftar nama produk yang total jumlah produk terjual per kelompok nama produk sama dengan 9. 
+SELECT nama_produk, sum(qty) FROM penjualan GROUP BY nama_produk HAVING sum(qty) > 9;
+
+-- 3. Melihat daftar kelompok nama produk dan total nilai penjualan (harga dikalikan jumlah dikurangi diskon) 
+-- dengan dan urutan berdasarkan nilai penjualan terbesar. 
+SELECT nama_produk, SUM((harga * qty) - diskon_persen) AS total_nilai_penjualan
+FROM penjualan GROUP BY nama_produk ORDER BY total_nilai_penjualan DESC;
+
 
